@@ -477,7 +477,7 @@ signed int LT24_drawPixel(unsigned short colour,unsigned int x,unsigned int y)
 // - returns 0 if successful
 signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y)
 {
-	static const char windowWidth  = 10 ;
+	static const char windowWidth  = 20 ;
 	static const char windowHeight = 28 ;
 	signed int status;
 	unsigned int idx;
@@ -490,4 +490,23 @@ signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y)
     //And done.
     return LT24_SUCCESS;
 }
+
+//Plot a column of coloured windows, based on a vector of colour inputs.
+void LT24_drawColumn(unsigned short *colours_ptr ,unsigned int columnNumber)
+{
+	unsigned int i, x;
+	// Start at the farthest from the origin (the top right of the screen)
+	// point and work toward the origin (to the right).
+	unsigned int y = 253 - (columnNumber * 28) ;
+	// Start at the top of the screen and draw windows downward.
+	for (i = 0; i < 11; i++) {
+		x = 1 + i * 20 ;
+		// Access an element of an array of colours, stored as a pointer,
+		// and display this colour in a window.
+		LT24_drawWindow(*(colours_ptr + i) , x, y );
+	}
+
+}
+
+
 

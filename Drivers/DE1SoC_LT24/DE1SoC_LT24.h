@@ -91,6 +91,9 @@ signed int LT24_drawPixel(unsigned short colour,unsigned int x,unsigned int y);
 // - returns 0 if successful
 signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y) ;
 
+//Plot a column of coloured windows, based on a vector of colour inputs.
+void LT24_drawColumn(unsigned short *colours_ptr, unsigned int columnNumber);
+
 #endif /*DE1SoC_LT24_H_*/
 
 /*
