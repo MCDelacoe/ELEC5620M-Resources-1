@@ -82,6 +82,14 @@ signed int LT24_copyFrameBuffer(const unsigned short* framebuffer, unsigned int 
 // - returns 0 if successful
 signed int LT24_drawPixel(unsigned short colour,unsigned int x,unsigned int y);
 
+/* Added Functions ///////////////////////////////////////////////////////////////////
+ * by Maxim Delacoe
+ * on 1/4/2022
+ */
+
+//Plot a window of pixels on the LT24 display
+// - returns 0 if successful
+signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y) ;
 
 #endif /*DE1SoC_LT24_H_*/
 

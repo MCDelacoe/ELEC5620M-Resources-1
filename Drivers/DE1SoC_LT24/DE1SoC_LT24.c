@@ -468,3 +468,26 @@ signed int LT24_drawPixel(unsigned short colour,unsigned int x,unsigned int y)
     return LT24_SUCCESS;                         //And Done
 }
 
+/* Added Functions ///////////////////////////////////////////////////////////////////
+ * by Maxim Delacoe
+ * on 1/4/2022
+ */
+
+//Plot a window of pixels on the LT24 display
+// - returns 0 if successful
+signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y)
+{
+	static const char windowWidth  = 10 ;
+	static const char windowHeight = 28 ;
+	signed int status;
+	unsigned int idx;
+    status = LT24_setWindow(x,y,windowWidth,windowHeight); //Define single pixel window
+    if (status != LT24_SUCCESS) return status;   //Check for any errors
+    //Loop through each pixel in the window writing the required colour
+	for(idx=0;idx<(windowWidth*windowHeight);idx++) {
+            LT24_write(true, colour);
+	}
+    //And done.
+    return LT24_SUCCESS;
+}
+
