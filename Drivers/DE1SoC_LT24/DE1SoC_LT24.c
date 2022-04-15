@@ -468,44 +468,96 @@ signed int LT24_drawPixel(unsigned short colour,unsigned int x,unsigned int y)
     return LT24_SUCCESS;                         //And Done
 }
 
-/* Added Functions ///////////////////////////////////////////////////////////////////
+/* Added Functionality ///////////////////////////////////////////////////////////////////
  * by Maxim Delacoe
  * on 1/4/2022
  */
+unsigned short widthOfGraph;
+unsigned short heightOfGraph;
+unsigned short widthOfWindow;
+unsigned short heightOfWindow;
+unsigned short windowArea;
+unsigned short numberOfRows;
+
+
+void LT24_initGeometries(unsigned short graphWidth, unsigned short graphHeight,
+					     unsigned short columns,    unsigned short windowHeight)
+{
+	widthOfGraph	= graphWidth;
+	heightOfGraph	= graphHeight;
+	widthOfWindow	= graphWidth / columns;
+	heightOfWindow	= windowHeight;
+	windowArea		= widthOfWindow * heightOfWindow;
+	numberOfRows    = graphHeight / windowHeight;
+}
 
 //Plot a window of pixels on the LT24 display
 // - returns 0 if successful
 signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y)
 {
-	static const char windowWidth  = 20 ;
-	static const char windowHeight = 28 ;
 	signed int status;
 	unsigned int idx;
-    status = LT24_setWindow(x,y,windowWidth,windowHeight); //Define single pixel window
-    if (status != LT24_SUCCESS) return status;   //Check for any errors
+	//Define width by height window (area) of pixels.
+    status = LT24_setWindow(x, y, heightOfWindow, widthOfWindow);
+    //Check for any errors.
+    if (status != LT24_SUCCESS) return status;
     //Loop through each pixel in the window writing the required colour
-	for(idx=0;idx<(windowWidth*windowHeight);idx++) {
+	for(idx = 0; idx < windowArea; idx++) {
             LT24_write(true, colour);
 	}
-    //And done.
     return LT24_SUCCESS;
 }
 
 //Plot a column of coloured windows, based on a vector of colour inputs.
-void LT24_drawColumn(unsigned short *colours_ptr ,unsigned int columnNumber)
+void LT24_drawColumn(unsigned short *colours_ptr, unsigned int columnNumber,
+					 unsigned char sizeOfRow)
 {
 	unsigned int i, x;
 	// Start at the farthest from the origin (the top right of the screen)
 	// point and work toward the origin (to the right).
-	unsigned int y = 253 - (columnNumber * 28) ;
+	unsigned int y = widthOfGraph + 1 - widthOfWindow * (1 + columnNumber) ;
 	// Start at the top of the screen and draw windows downward.
-	for (i = 0; i < 11; i++) {
-		x = 1 + i * 20 ;
+	for (i = 0; i < numberOfRows; i++) {
+		x = 1 + i * heightOfWindow ;
 		// Access an element of an array of colours, stored as a pointer,
 		// and display this colour in a window.
-		LT24_drawWindow(*(colours_ptr + i) , x, y );
+		LT24_drawWindow(*(colours_ptr + i), x, y);
 	}
 
+}
+
+unsigned short LT24_mapMagnitudeToColour(unsigned int mag) {
+	// gradient1 represents the ratio of Green's 6 bits to 14 bits.
+    static const float gradient1 = 64.0 / 16384.0 ;
+    // gradient1 represents the ratio of Red or Blue's 5 bits to 14 bits.
+    static const float gradient2 = 32.0 / 16384.0 ;
+    unsigned char red, green, blue ;
+    // Magnitudes from 0 to 2^14 - 1 represent the transition from blue to
+    // cyan.
+    if (mag < 16384) {
+        red   = 0;
+        green = 0 + gradient1 * mag ; // green increases proportionally to mag
+        blue  = 31;					  					// and blue is static.
+	// Magnitudes from 2^14 to 2^15 - 1 represent the transition from cyan
+	// to green.
+    } else if (mag < 32768) {
+        red   = 0;
+        green = 63 ;	// green is static, and blue decreases proportionally
+        blue  = 31 - gradient2 * (mag - 16384) ; 			// to magnitude.
+	// Magnitudes from 2^15 to 49152 represent the transition from green
+	// to yellow.
+    } else if (mag < 49152) {
+        red   = 0 + gradient2 * (mag - 32768) ; // red increases proportionally
+        green = 63 ;					  // to magnitude, and green is static.
+        blue  = 0;
+	// Magnitudes from 49152 to 2^16 - 1 represent the transition from yellow
+	// to red.
+    } else {
+        red   = 31;    // red is static, and green decreases proportionally
+        green = 63 - gradient1 * (mag - 49152) ;		   // to magnitude.
+        blue  = 0;
+    }
+    return (red << 11) + (green << 5) + (blue << 0) ;
 }
 
 

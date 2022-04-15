@@ -87,12 +87,28 @@ signed int LT24_drawPixel(unsigned short colour,unsigned int x,unsigned int y);
  * on 1/4/2022
  */
 
+void LT24_initGeometries(unsigned short graphWidth, unsigned short graphHeight,
+					     unsigned short columns, 	unsigned short windowHeight);
+
 //Plot a window of pixels on the LT24 display
 // - returns 0 if successful
 signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y) ;
 
 //Plot a column of coloured windows, based on a vector of colour inputs.
-void LT24_drawColumn(unsigned short *colours_ptr, unsigned int columnNumber);
+void LT24_drawColumn(unsigned short *colours_ptr, unsigned int columnNumber,
+					 unsigned char sizeOfRow);
+
+/**
+ * LT24_mapMagnitudeToColour
+ *
+ * The function maps a magnitude from 0 to MAX (e.g., 0 to 1, or
+ * 0 to 0xFFFF) to a colour. The colours range from blue, through
+ * cyan-green-yellow, to red, indicating the magnitude with colour.
+ *
+ * Inputs:
+ * 	  mag	Specify the magnitude of the input component.
+ */
+unsigned short LT24_mapMagnitudeToColour(unsigned int mag) ;
 
 #endif /*DE1SoC_LT24_H_*/
 

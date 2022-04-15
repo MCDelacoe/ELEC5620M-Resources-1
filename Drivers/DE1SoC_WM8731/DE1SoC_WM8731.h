@@ -32,10 +32,15 @@
 #define WM8731_WSRC 2
 #define WM8731_WSLC 3
 
-//Initialise Audio Codec
+//Initialise Audio Codec for stereo line input
 // - base_address is memory-mapped address of audio controller
 // - returns 0 if successful
-signed int WM8731_initialise ( unsigned int base_address );
+signed int WM8731_initialiseLineIn ( unsigned int base_address );
+
+//Initialise Audio Codec for microphone input
+// - base_address is memory-mapped address of audio controller
+// - returns 0 if successful
+signed int WM8731_initialiseMicIn ( unsigned int base_address );
 
 //Check if driver initialised
 // - Returns true if driver previously initialised
