@@ -45,19 +45,19 @@ signed int WM8731_initialiseLineIn ( unsigned int base_address ) {
     }
     //Initialise the WM8731 codec over I2C. See Page 46 of datasheet
     //(1) LINE IN
-    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_POWERCNTRL   <<9) | 0x12); //Power-up chip. Leave mic off as not used. MOD
+    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_POWERCNTRL   <<9) | 0x12); //Power-up chip. Leave mic off as not used.
 	if (status != HPS_I2C_SUCCESS) return status;
-	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_LEFTINCNTRL  <<9) | 0x17); //+4.5dB Volume. Unmute. MOD
+	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_LEFTINCNTRL  <<9) | 0x17); //+4.5dB Volume. Unmute.
 	if (status != HPS_I2C_SUCCESS) return status;
-	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_RIGHTINCNTRL <<9) | 0x17); //+4.5dB Volume. Unmute. MOD
+	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_RIGHTINCNTRL <<9) | 0x17); //+4.5dB Volume. Unmute.
 	if (status != HPS_I2C_SUCCESS) return status;
 	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_LEFTOUTCNTRL <<9) | 0x70); //-24dB Volume. Unmute.
 	if (status != HPS_I2C_SUCCESS) return status;
 	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_RIGHTOUTCNTRL<<9) | 0x70); //-24dB Volume. Unmute.
 	if (status != HPS_I2C_SUCCESS) return status;
-	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_ANLGPATHCNTRL<<9) | 0x12); //Use Line In. Disable Bypass. Use DAC. MOD
+	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_ANLGPATHCNTRL<<9) | 0x12); //Use Line In. Disable Bypass. Use DAC.
 	if (status != HPS_I2C_SUCCESS) return status;
-	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_DGTLPATHCNTRL<<9) | 0x06); //Enable High-Pass filter. 48kHz sample rate. MOD
+	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_DGTLPATHCNTRL<<9) | 0x06); //Enable High-Pass filter. 48kHz sample rate.
 	if (status != HPS_I2C_SUCCESS) return status;
 	status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_DATAFMTCNTRL <<9) | 0x4E); //I2S Mode, 24bit, Master Mode (do not change this!)
 	if (status != HPS_I2C_SUCCESS) return status;
@@ -86,19 +86,19 @@ signed int WM8731_initialiseMicIn ( unsigned int base_address ) {
     }
     //Initialise the WM8731 codec over I2C. See Page 46 of datasheet
     //(2) MIC IN
-    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_POWERCNTRL   <<9) | 0x11); //Power-up chip. Leave mic off as not used. MOD (0x12)
+    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_POWERCNTRL   <<9) | 0x11); //Power-up chip. Turn mic on.
     if (status != HPS_I2C_SUCCESS) return status;
-    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_LEFTINCNTRL  <<9) | 0x80); //+4.5dB Volume. Unmute. MOD (0x17)
+    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_LEFTINCNTRL  <<9) | 0x80); //+4.5dB Volume. Unmute. MIC-IN
     if (status != HPS_I2C_SUCCESS) return status;
-    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_RIGHTINCNTRL <<9) | 0x80); //+4.5dB Volume. Unmute. MOD (0x17)
+    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_RIGHTINCNTRL <<9) | 0x80); //+4.5dB Volume. Unmute. MIC-IN
     if (status != HPS_I2C_SUCCESS) return status;
     status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_LEFTOUTCNTRL <<9) | 0x70); //-24dB Volume. Unmute.
     if (status != HPS_I2C_SUCCESS) return status;
     status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_RIGHTOUTCNTRL<<9) | 0x70); //-24dB Volume. Unmute.
     if (status != HPS_I2C_SUCCESS) return status;
-    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_ANLGPATHCNTRL<<9) | 0x05); //Use Line In. Disable Bypass. Use DAC. MOD (0x12)
+    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_ANLGPATHCNTRL<<9) | 0x05); //Use Mic In. Disable Bypass.
     if (status != HPS_I2C_SUCCESS) return status;
-    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_DGTLPATHCNTRL<<9) | 0x06); //Enable High-Pass filter. 48kHz sample rate. MOD (0x06)
+    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_DGTLPATHCNTRL<<9) | 0x06); //Enable High-Pass filter. 48kHz sample rate.
     if (status != HPS_I2C_SUCCESS) return status;
     status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_DATAFMTCNTRL <<9) | 0x4E); //I2S Mode, 24bit, Master Mode (do not change this!)
     if (status != HPS_I2C_SUCCESS) return status;
@@ -106,7 +106,7 @@ signed int WM8731_initialiseMicIn ( unsigned int base_address ) {
     if (status != HPS_I2C_SUCCESS) return status;
     status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_ACTIVECNTRL  <<9) | 0x01); //Enable Codec
     if (status != HPS_I2C_SUCCESS) return status;
-    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_POWERCNTRL   <<9) | 0x01); //Power-up output. (0x02)
+    status = HPS_I2C_write16b(0, 0x1A, (WM8731_I2C_POWERCNTRL   <<9) | 0x01); //Power-up output for MIC-IN.
     if (status != HPS_I2C_SUCCESS) return status;
     //Check if the base pointer is valid. This allows us to use the library to initialise the I2C side only.
     if (base_address == 0x0) return WM8731_ERRORNOINIT;

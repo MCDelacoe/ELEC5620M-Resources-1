@@ -508,9 +508,10 @@ signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y)
     return LT24_SUCCESS;
 }
 
-//Plot a column of coloured windows, based on a vector of colour inputs.
-void LT24_drawColumn(unsigned short *colours_ptr, unsigned int columnNumber,
-					 unsigned char sizeOfRow)
+// Plot a column of coloured windows, based on a vector of colour inputs.
+// Note, the drivers in this file assume x is the short side and y is the
+// the long side. However, this is transposed in the following functions.
+void LT24_drawColumn(unsigned short *colours_ptr, unsigned int columnNumber)
 {
 	unsigned int i, x;
 	// Start at the farthest from the origin (the top right of the screen)

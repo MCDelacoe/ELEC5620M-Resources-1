@@ -13,7 +13,7 @@
  * -----------+-------------------------------
  * 20/09/2017 | Creation of driver
  * 20/10/2017 | Change to include status codes
- *
+ * 01/05/2022 | Differentiated init driver into two
  */
 
 #ifndef DE1SoC_WM8731_H_

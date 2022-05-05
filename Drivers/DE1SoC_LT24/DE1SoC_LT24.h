@@ -13,7 +13,7 @@
  * -----------+----------------------------------
  * 05/02/2017 | Creation of driver
  * 20/10/2017 | Update driver to match new styles
- *
+ * 01/04/2022 | Added functions from line 85
  */
 
 #ifndef DE1SoC_LT24_H_
@@ -87,33 +87,60 @@ signed int LT24_drawPixel(unsigned short colour,unsigned int x,unsigned int y);
  * on 1/4/2022
  */
 
+/**
+ * LT24_initGeometries
+ *
+ * Initialises the parameters for drawing columns on the LCD. The header
+ * pins are regarded as the top of the screen.
+ *
+ * Inputs:
+ * 	  graphWidth	width of the graph.
+ * 	  graphHeight	height of the graph.
+ * 	  columns		number of columns on the graph.
+ * 	  windowHeight  height of the windows (rows) on the graph.
+ *
+ */
 void LT24_initGeometries(unsigned short graphWidth, unsigned short graphHeight,
 					     unsigned short columns, 	unsigned short windowHeight);
 
-//Plot a window of pixels on the LT24 display
-// - returns 0 if successful
+/**
+ * LT24_drawWindow
+ *
+ * The function draws a single column of coloured rows on the LCD
+ * display.
+ *
+ * Inputs:
+ * 	  colour	specify the colour the window will take.
+ * 	  x			the x coordinate of the corner of the window.
+ * 	  y			the y coordinate of the corner of the window.
+ *
+ */
 signed int LT24_drawWindow(unsigned short colour,unsigned int x,unsigned int y) ;
 
-//Plot a column of coloured windows, based on a vector of colour inputs.
-void LT24_drawColumn(unsigned short *colours_ptr, unsigned int columnNumber,
-					 unsigned char sizeOfRow);
+/**
+ * LT24_drawColumn
+ *
+ * The function draws a single column of coloured rows on the LCD
+ * display.
+ *
+ * Inputs:
+ * 	  colours_ptr		a pointer to an array of values mapped to colour.
+ * 	  columnNumbers		the total number of columns across the LCD.
+ *
+ */
+void LT24_drawColumn(unsigned short *colours_ptr, unsigned int columnNumber);
 
 /**
  * LT24_mapMagnitudeToColour
  *
- * The function maps a magnitude from 0 to MAX (e.g., 0 to 1, or
+ * The function maps a magnitude from 0 to MAX (e.g.,
  * 0 to 0xFFFF) to a colour. The colours range from blue, through
- * cyan-green-yellow, to red, indicating the magnitude with colour.
+ * cyan-green-yellow, to red, indicating magnitude with colour.
  *
  * Inputs:
- * 	  mag	Specify the magnitude of the input component.
+ * 	  mag	Specify the magnitude of the input.
  */
 unsigned short LT24_mapMagnitudeToColour(unsigned int mag) ;
 
 #endif /*DE1SoC_LT24_H_*/
 
-/*
-Draw a pixel
-LT24_setWindow(x,y,1,1);
-LT24_write(true,LT24_makeColour(R,G,B));
-*/
